@@ -1,0 +1,14 @@
+{
+  "dependencies": {
+    "@aws-cdk/aws-s3": "^1.158.0",
+    "@aws-cdk/core": "^1.158.0",
+    "aws-sdk": "^2.1145.0",
+    "cdk": "^2.26.0",
+    "eslint": "^8.16.0",
+    "express": "^4.18.1",
+    "typeorm": "^0.3.6"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.36"
+  }
+}
