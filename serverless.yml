@@ -1,0 +1,53 @@
+service: serverlessSetup
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+  profile: metergram-internship
+  region: eu-north-1
+
+# functions
+functions:
+  createUser:
+    handler: src/handlers.createUser
+    events: # The events that trigger this function
+      - httpApi: 
+          path: /users
+          method: post
+  getUser:
+    handler: src/handlers.getUser
+    events: # The events that trigger this function
+      - httpApi: 
+          path: /users/{id}
+          method: get
+
+
+# Serverless plugins
+plugins:
+  - serverless-plugin-typescript
+  - serverless-offline
+
+iam: 
+  role:
+    statements: 
+      - Effect: Allow
+        Action:
+          - "dynamodb:PutUser"
+          - "dynamodb:GetUser"
+          - "dynamodb:DeleteUser"
+        Resource: 
+          - { "Fn::GetAtt": ["UserTable", "Arn"] }
+
+# Resources your functions use
+resources:
+  Resources:
+    UserTable: 
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: UserTable
+        AttributeDefinitions:
+          - AttributeName: Id
+            AttributeType: String
+        KeySchema:
+          - AttributeName: Id
+            KeyType: HASH
